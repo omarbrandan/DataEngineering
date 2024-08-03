@@ -1,0 +1,3 @@
+2024-08-03 16:12:44.527118: Error al cargar datos en Redshift: connection to server at "data-engineer-cluster.cyhh5bfevlmn.us-east-1.redshift.amazonaws.com" (52.44.43.227), port 5439 failed: FATAL:  password authentication failed for user "tu_usuario"
+connection to server at "data-engineer-cluster.cyhh5bfevlmn.us-east-1.redshift.amazonaws.com" (52.44.43.227), port 5439 failed: FATAL:  password authentication failed for user "tu_usuario"
+
