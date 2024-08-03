@@ -7,11 +7,11 @@ def obtener_datos_coingecko():
     params = {
         'vs_currency': 'usd',
         'order': 'market_cap_desc',
-        'per_page': 10,
+        'per_page': 30,
         'page': 1,
         'sparkline': 'false'
     }
-
+    
     try:
         response = requests.get(url, params=params)
         response.raise_for_status()
