@@ -1,15 +1,18 @@
 import psycopg2
 from datetime import datetime
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 def cargar_datos_redshift(datos):
     try:
-        # Conexión a Amazon Redshift
         conn = psycopg2.connect(
-            dbname='nombre_correcto_de_la_base_de_datos',
-            user='tu_usuario',
-            password='tu_contraseña',
-            host='data-engineer-cluster.cyhh5bfevlmn.us-east-1.redshift.amazonaws.com',
-            port='5439'
+            dbname=os.getenv('REDSHIFT_DBNAME'),
+            user=os.getenv('REDSHIFT_USER'),
+            password=os.getenv('REDSHIFT_PASSWORD'),
+            host=os.getenv('REDSHIFT_HOST'),
+            port=os.getenv('REDSHIFT_PORT')
         )
         cursor = conn.cursor()
 
@@ -101,3 +104,4 @@ def cargar_datos_redshift(datos):
     except Exception as e:
         with open('d:\Omar\Documents\CODERHOUSE\Data Engineering\log\error.log', 'a') as f:
             f.write(f"{datetime.now()}: Error al cargar datos en Redshift: {e}\n")
+        print(f"Error: {e}")

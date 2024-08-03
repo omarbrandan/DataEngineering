@@ -1,4 +1,5 @@
 import requests
+import json
 from datetime import datetime
 
 def obtener_datos_coingecko():
