@@ -1,0 +1,3 @@
+2024-08-03 20:26:13.162815: Error al cargar datos en Redshift: FATAL:  password authentication failed for user "tu_usuario"
+FATAL:  password authentication failed for user "tu_usuario"
+
