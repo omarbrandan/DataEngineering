@@ -19,7 +19,7 @@ def cargar_datos_redshift(datos):
         # Crear la tabla temporal
         cursor.execute("""
         CREATE TEMP TABLE IF NOT EXISTS cryptocurrencies_temp (
-            id VARCHAR(50),
+            id VARCHAR(50) PRIMARY KEY,
             symbol VARCHAR(10),
             name VARCHAR(50),
             current_price DECIMAL(36, 18),
