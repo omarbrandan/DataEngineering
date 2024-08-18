@@ -1,3 +1,41 @@
 2024-08-03 16:12:44.527118: Error al cargar datos en Redshift: connection to server at "data-engineer-cluster.cyhh5bfevlmn.us-east-1.redshift.amazonaws.com" (52.44.43.227), port 5439 failed: FATAL:  password authentication failed for user "tu_usuario"
 connection to server at "data-engineer-cluster.cyhh5bfevlmn.us-east-1.redshift.amazonaws.com" (52.44.43.227), port 5439 failed: FATAL:  password authentication failed for user "tu_usuario"
 
+2024-08-17 21:14:33.585784: Error al cargar datos en Redshift: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+
+2024-08-17 21:16:46.726900: Error al cargar datos en Redshift: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+
+2024-08-17 21:18:20.923843: Error al cargar datos en Redshift: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+
+2024-08-17 21:19:03.476448: Error al cargar datos en Redshift: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+
+2024-08-17 21:22:12.430005: Error al cargar datos en Redshift: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+
+2024-08-18 15:02:57.545917: Error al cargar datos en Redshift: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+
+2024-08-18 15:05:09.944920: Error al cargar datos en Redshift: could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+
+2024-08-18 15:27:08.307982: Error al cargar datos en Redshift: syntax error at or near "a"
+LINE 2:             DELETE FROM cryptocurrencies a
+                                                 ^
+
+2024-08-18 15:32:16.616414: Error al cargar datos en Redshift: syntax error at or near "a"
+LINE 2:             DELETE FROM cryptocurrencies a
+                                                 ^
+
+2024-08-18 15:32:35.250493: Error al cargar datos en Redshift: column "ctid" does not exist in cryptocurrencies
+

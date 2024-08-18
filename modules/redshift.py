@@ -97,6 +97,22 @@ def cargar_datos_redshift(datos):
             FROM cryptocurrencies_temp
         """)
 
+         # Eliminar duplicados, manteniendo el más reciente
+        cursor.execute("""
+            DELETE FROM cryptocurrencies
+            WHERE id IN (
+                SELECT id FROM (
+                    SELECT id, ROW_NUMBER() OVER (PARTITION BY id, symbol, name, current_price, market_cap, market_cap_rank,
+                    total_volume, high_24h, low_24h, price_change_24h, price_change_percentage_24h,
+                    circulating_supply, total_supply, max_supply, ath, ath_change_percentage,
+                    ath_date, atl, atl_change_percentage, atl_date, ingestion_time
+                    ORDER BY ingestion_time DESC) AS rnum
+                    FROM cryptocurrencies
+                ) t
+                WHERE t.rnum > 1
+            );
+        """)
+
         # Confirmar y cerrar la conexión
         conn.commit()
         cursor.close()
