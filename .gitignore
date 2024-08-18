@@ -1,2 +1,47 @@
 # Ignorar el archivo .env
 .env
+.env.*
+
+# Entorno virtual
+venv/
+.venv/
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Configuración de editores/IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de log
+*.log
+
+# Archivos de bases de datos locales
+*.sqlite3
+*.db
+
+# Archivos de Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Archivos de caché de la librería pip
+pip-wheel-metadata/
+*.whl
+
+# Archivos de configuración y dependencia
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# Archivos de empaquetado
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Otros
+.DS_Store
+Thumbs.db
