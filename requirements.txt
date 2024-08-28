@@ -1,10 +1,8 @@
-psycopg2
-#beautifulsoup4==4.12.3
-#certifi==2024.2.2
-#charset-normalizer==3.3.2
-#frozendict==2.4.4
-#greenlet==3.0.3
-#html5lib==1.1
+# Airflow
+apache-airflow==2.7.0
+apache-airflow-providers-postgres==5.1.0
+
+# Dependencias necesarias
 idna==3.7
 lxml==5.2.2
 multitasking==0.0.11
