@@ -15,7 +15,7 @@ dag = DAG(
     'ETL_to_Redshift',
     description='DAG para realizar ETL de criptomonedas y cargar en Redshift',
     schedule_interval='@daily',
-    start_date=datetime(2023, 8, 28),
+    start_date=datetime(2024, 8, 28),
     catchup=False
 )
 
