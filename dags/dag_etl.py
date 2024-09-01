@@ -1,11 +1,12 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
-from modules.data_extract import extract_data
-from modules.data_transform import transform_data
-from modules.data_load import load_data
-import os
+from dags_modules.data_extract import extract_data
+from dags_modules.data_transform import transform_data
+from dags_modules.data_load import load_data
+from utils import get_defaultairflow_args
 from dotenv import load_dotenv
+import os
 
 # Cargar las variables de entorno desde el archivo .env
 load_dotenv()
@@ -16,7 +17,8 @@ dag = DAG(
     description='DAG para realizar ETL de criptomonedas y cargar en Redshift',
     schedule_interval='@daily',
     start_date=datetime(2024, 8, 28),
-    catchup=False
+    catchup=False,
+    default_args=get_defaultairflow_args()
 )
 
 # Definir las tareas usando PythonOperator
