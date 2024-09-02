@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import os
+import requests
 
 
 load_dotenv()
@@ -28,3 +29,9 @@ def get_defaultairflow_args():
         "retries": 1,
         "retry_delay": timedelta(minutes=5),
     }
+
+    
+def fetch_data_from_api(api_url: str) -> dict:
+    response = requests.get(api_url)
+    response.raise_for_status()  # Levanta una excepción si la petición falla
+    return response.json()

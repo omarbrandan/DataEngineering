@@ -15,9 +15,10 @@ x-airflow-common:
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
   volumes:
     - ./dags:/opt/airflow/dags
-    - ./modules:/opt/airflow/dags/dags_modules
+    - ./dags_modules:/opt/airflow/dags/dags_modules
     - ./logs:/opt/airflow/logs
     - ./plugins:/opt/airflow/plugins
+    - ./airflow-config:/opt/airflow/airflow-config
   user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
   depends_on:
     &airflow-common-depends-on
