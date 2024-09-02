@@ -1,4 +1,10 @@
-from utils import load_data_to_redshift
+from modules.redshift import cargar_datos_redshift
+from modules.cleaning import remove_duplicates
 
-def load_data(transformed_data):
-    load_data_to_redshift(transformed_data)
+def preparar_y_cargar_datos(data):
+    datos_procesados = procesar_datos(data)
+    cargar_datos_redshift(datos_procesados)
+
+def procesar_datos(data):
+    data_sin_duplicados = remove_duplicates(data)
+    return data_sin_duplicados

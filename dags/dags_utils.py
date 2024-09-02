@@ -2,10 +2,10 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import os
 import requests
-
+import psycopg2
+from psycopg2.extras import execute_values
 
 load_dotenv()
-
 
 def get_schema()->str:
     return os.getenv("REDSHIFT_SCHEMA")  
@@ -18,20 +18,8 @@ def get_credentials() -> dict:
         "host": os.getenv("REDSHIFT_HOST"),
         "port": os.getenv("REDSHIFT_PORT"),
     }
-
-def get_defaultairflow_args():
-    return {
-        "owner": "omar",
-        "depends_on_past": False,
-        "start_date": datetime(2024, 8, 28),
-        "email_on_failure": False,
-        "email_on_retry": False,
-        "retries": 1,
-        "retry_delay": timedelta(minutes=5),
-    }
-
     
-def fetch_data_from_api(api_url: str) -> dict:
-    response = requests.get(api_url)
-    response.raise_for_status()  # Levanta una excepción si la petición falla
+def fetch_data_from_api(api_url: str, params: dict = None) -> dict:
+    response = requests.get(api_url, params=params)
+    response.raise_for_status()
     return response.json()
