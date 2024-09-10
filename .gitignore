@@ -1,6 +1,6 @@
 # Ignorar el archivo .env
-#.env
-#.env.*
+.env
+.env.*
 
 # Entorno virtual
 venv/
