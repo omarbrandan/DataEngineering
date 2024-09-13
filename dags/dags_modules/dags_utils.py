@@ -23,3 +23,14 @@ def fetch_data_from_api(api_url: str, params: dict = None) -> dict:
     response = requests.get(api_url, params=params)
     response.raise_for_status()
     return response.json()
+
+def get_defaultairflow_args():
+    return {
+        'owner': 'omar',
+        'depends_on_past': False,
+        "start_date": datetime.now(),
+        'email_on_failure': True,
+        'email_on_retry': False,
+        'retries': 1,
+        "retry_delay": timedelta(seconds=10),
+    }
