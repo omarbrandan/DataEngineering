@@ -1,3 +1,4 @@
+import logging
 from dags_utils import fetch_data_from_api
 
 def extract_data():
@@ -9,5 +10,13 @@ def extract_data():
         'page': 1,
         'sparkline': False
     }
-    data = fetch_data_from_api(api_url, params)
-    return data
+
+    logging.info(f"Fetching data from API: {api_url} with params: {params}")
+
+    try:
+        data = fetch_data_from_api(api_url, params)
+        logging.info("Data fetched successfully")
+        return data
+    except Exception as e:
+        logging.error(f"Error fetching data: {e}")
+        raise

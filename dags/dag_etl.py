@@ -5,7 +5,7 @@ from dags_modules.data_extract import extract_data
 from dags_modules.data_transform import transform_data
 from dags_modules.data_load import preparar_y_cargar_datos
 from dags_modules.mail_sender import send_email
-from dags_modules.dags_utils import get_defaultairflow_args, check_limits_and_send_alert
+from dags_modules.dags_utils import get_defaultairflow_args
 from dotenv import load_dotenv
 import os
 from airflow.models import Variable
@@ -30,14 +30,14 @@ with DAG(
     transform_data_task = PythonOperator(
         task_id='transform_data_task',
         python_callable=transform_data,
-        op_args=[extract_data()],
+        op_args=[extract_data_task.output],
         dag=dag,
     )
 
     prepare_and_load_task = PythonOperator(
     task_id='prepare_and_load_task',
     python_callable=preparar_y_cargar_datos,
-    op_args=[transform_data(extract_data())],
+    op_args=[transform_data_task.output],
     dag=dag,
     )
 
