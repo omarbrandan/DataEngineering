@@ -39,13 +39,21 @@ tasks:
       - mkdir -p $ROOT_PROJECT/{raw_data,processed_data,dags,logs,plugins,config}
       - tree -L 2 $ROOT_PROJECT
 
+  install_dependencies:
+    cmds:
+      - echo "Installing Python dependencies inside the Airflow container"
+      - docker compose -f $ROOT_PROJECT/$DOCKER run --rm airflow-webserver bash -c "pip install -r /opt/airflow/requirements.txt"
+
   start_project:
+    deps: [install_dependencies]
+    cmds:
       - source $ROOT_PROJECT/.env
       - docker compose -f $ROOT_PROJECT/$DOCKER up airflow-init --build
       - docker compose -f $ROOT_PROJECT/$DOCKER up -d --build
       - docker container ls -a
 
   down_project:
+    cmds:
       - docker compose -f $ROOT_PROJECT/$DOCKER down
 
   cleanup: 

@@ -18,6 +18,6 @@ def obtener_datos_coingecko():
         datos = response.json()
         return datos
     except requests.RequestException as e:
-        with open('d:\Omar\Documents\CODERHOUSE\Data Engineering\log\error.log', 'a') as f:
+        with open('/opt/airflow/logs/error.log', 'a') as f:
             f.write(f"{datetime.now()}: Error al hacer la solicitud: {e}\n")
         return None

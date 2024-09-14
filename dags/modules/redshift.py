@@ -119,6 +119,6 @@ def cargar_datos_redshift(datos):
         cursor.close()
         conn.close()
     except Exception as e:
-        with open('d:\Omar\Documents\CODERHOUSE\Data Engineering\log\error.log', 'a') as f:
+        with open('/opt/airflow/logs/error.log', 'a') as f:
             f.write(f"{datetime.now()}: Error al cargar datos en Redshift: {e}\n")
         print(f"Error: {e}")

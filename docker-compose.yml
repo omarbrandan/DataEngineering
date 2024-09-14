@@ -5,15 +5,16 @@ x-airflow-common:
     &airflow-common-env
     PYTHONPATH: /opt/airflow/dags:/opt/airflow/dags/dags_modules:/opt/airflow/modules
 
-    # USO DE VARIABLES
+    # Variables de entorno
     AIRFLOW_VAR_SUBJECT_MAIL: 'ETL CRIPTOCURRENCIES'
     AIRFLOW_VAR_EMAIL: ${EMAIL}
     AIRFLOW_VAR_EMAIL_PASSWORD: "${EMAIL_PASSWORD}"
     AIRFLOW_VAR_TO_ADDRESS: '${EMAIL}'
 
-    # USO DE VARIALES PARA BACKEND
+    # Configuración de backend para emails
     AIRFLOW__EMAIL__EMAIL_BACKEND: airflow.utils.email.send_email_smtp
 
+    # Configuración del SMTP
     AIRFLOW__SMTP__SMTP_HOST: ${SMTP_HOST}
     AIRFLOW__SMTP__SMTP_STARTTLS: ${SMTP_STARTTLS}
     AIRFLOW__SMTP__SMTP_SSL: ${SMTP_SSL}
@@ -22,8 +23,9 @@ x-airflow-common:
     AIRFLOW__SMTP__SMTP_PORT: ${SMTP_PORT}
     AIRFLOW__SMTP__SMTP_MAIL_FROM: ${SMTP_MAIL_FROM}
 
+    # Configuración de Airflow
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
-    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
@@ -38,6 +40,7 @@ x-airflow-common:
     - ./logs:/opt/airflow/logs
     - ./plugins:/opt/airflow/plugins
     - ./airflow-config:/opt/airflow/airflow-config
+    - ./requirements.txt:/opt/airflow/requirements.txt
   user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
   depends_on:
     &airflow-common-depends-on
@@ -62,6 +65,8 @@ services:
       interval: 5s
       retries: 5
     restart: always
+    networks:
+      - dataengineering_default
 
   redis:
     image: redis:6
@@ -73,6 +78,8 @@ services:
       timeout: 10s
       retries: 5
     restart: always
+    networks:
+      - dataengineering_default
 
   airflow-webserver:
     <<: *airflow-common
@@ -87,6 +94,8 @@ services:
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
+    networks:
+      - dataengineering_default
 
   airflow-scheduler:
     <<: *airflow-common
@@ -100,6 +109,8 @@ services:
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
+    networks:
+      - dataengineering_default
 
   airflow-worker:
     <<: *airflow-common
@@ -118,6 +129,8 @@ services:
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
+    networks:
+      - dataengineering_default
 
   airflow-init:
     <<: *airflow-common
@@ -131,6 +144,12 @@ services:
     user: "${AIRFLOW_UID:-1000}:${AIRFLOW_GID:-0}"
     depends_on:
       <<: *airflow-common-depends-on
+    networks:
+      - dataengineering_default
 
 volumes:
   postgres-db-volume:
+
+networks:
+dataengineering_default:
+  external: true
