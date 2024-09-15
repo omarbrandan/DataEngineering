@@ -58,8 +58,9 @@ services:
       POSTGRES_DB: airflow
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
+      - /workspaces/DataEngineering/pg_hba.conf:/etc/postgresql/pg_hba.conf
     ports:
-      - 5432:5432
+      - "5432:5432"
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 5s
@@ -94,6 +95,14 @@ services:
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
+    environment:
+      <<: *airflow-common-env
+      REDSHIFT_URL: ${REDSHIFT_URL}
+      REDSHIFT_USER: ${REDSHIFT_USER}
+      REDSHIFT_PASSWORD: ${REDSHIFT_PASSWORD}
+      REDSHIFT_PORT: ${REDSHIFT_PORT}
+      REDSHIFT_DBNAME: ${REDSHIFT_DBNAME}
+      REDSHIFT_HOST: ${REDSHIFT_HOST}
     networks:
       - dataengineering_default
 
@@ -109,6 +118,14 @@ services:
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
+    environment:
+      <<: *airflow-common-env
+      REDSHIFT_URL: ${REDSHIFT_URL}
+      REDSHIFT_USER: ${REDSHIFT_USER}
+      REDSHIFT_PASSWORD: ${REDSHIFT_PASSWORD}
+      REDSHIFT_PORT: ${REDSHIFT_PORT}
+      REDSHIFT_DBNAME: ${REDSHIFT_DBNAME}
+      REDSHIFT_HOST: ${REDSHIFT_HOST}
     networks:
       - dataengineering_default
 
@@ -126,6 +143,12 @@ services:
     environment:
       <<: *airflow-common-env
       DUMB_INIT_SETSID: "0"
+      REDSHIFT_URL: ${REDSHIFT_URL}
+      REDSHIFT_USER: ${REDSHIFT_USER}
+      REDSHIFT_PASSWORD: ${REDSHIFT_PASSWORD}
+      REDSHIFT_PORT: ${REDSHIFT_PORT}
+      REDSHIFT_DBNAME: ${REDSHIFT_DBNAME}
+      REDSHIFT_HOST: ${REDSHIFT_HOST}
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
@@ -141,6 +164,12 @@ services:
       <<: *airflow-common-env
       _AIRFLOW_WWW_USER_USERNAME: airflow
       _AIRFLOW_WWW_USER_PASSWORD: airflow
+      REDSHIFT_URL: ${REDSHIFT_URL}
+      REDSHIFT_USER: ${REDSHIFT_USER}
+      REDSHIFT_PASSWORD: ${REDSHIFT_PASSWORD}
+      REDSHIFT_PORT: ${REDSHIFT_PORT}
+      REDSHIFT_DBNAME: ${REDSHIFT_DBNAME}
+      REDSHIFT_HOST: ${REDSHIFT_HOST}
     user: "${AIRFLOW_UID:-1000}:${AIRFLOW_GID:-0}"
     depends_on:
       <<: *airflow-common-depends-on
@@ -151,5 +180,5 @@ volumes:
   postgres-db-volume:
 
 networks:
-dataengineering_default:
-  external: true
+  dataengineering_default:
+    external: true
