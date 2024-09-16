@@ -2,6 +2,7 @@ version: '3'
 
 env:
   ROOT_PROJECT: ./workspaces/DataEngineering
+  ENV_FILE_PATH: /workspaces/DataEngineering/workspaces/DataEngineering/.env
   DOCKER: ../../docker-compose.yml
 
 tasks:
@@ -10,11 +11,11 @@ tasks:
       - echo "CREATE THE AIRLFOW AND THE STORAGE DIRS"
       - mkdir -p $ROOT_PROJECT
       - |
-        if [ ! -f $ROOT_PROJECT/.env ]; then
+        if [ ! -f $ENV_FILE_PATH ]; then
           echo "Creating .env file..."
-          echo -e "AIRFLOW_UID=$(id -u)" > $ROOT_PROJECT/.env
-          cat <<EOF >> $ROOT_PROJECT/.env
-        AIRFLOW_GID=0
+          echo -e "AIRFLOW_UID=$(id -u)" > $ENV_FILE_PATH
+          cat <<EOF >> $ENV_FILE_PATH
+        AIRFLOW_GID=
         REDSHIFT_URL=
         REDSHIFT_USER=
         REDSHIFT_PASSWORD=
@@ -35,30 +36,33 @@ tasks:
         else
           echo ".env file already exists"
         fi
-      - source $ROOT_PROJECT/.env
       - mkdir -p $ROOT_PROJECT/{raw_data,processed_data,dags,logs,plugins,config}
       - tree -L 2 $ROOT_PROJECT
 
   install_dependencies:
     cmds:
       - echo "Installing Python dependencies inside the Airflow container"
-      - docker compose -f $ROOT_PROJECT/$DOCKER run --rm airflow-webserver bash -c "pip install -r /opt/airflow/requirements.txt"
+      - docker compose -f $ROOT_PROJECT/$DOCKER --env-file $ENV_FILE_PATH run --rm airflow-webserver bash -c "pip install -r /opt/airflow/requirements.txt"
+
+  create_network:
+    cmds:
+      - docker network create dataengineering_default || echo "Network already exists"
 
   start_project:
-    deps: [install_dependencies]
+    deps: [create_network, install_dependencies]
     cmds:
-      - source $ROOT_PROJECT/.env
-      - docker compose -f $ROOT_PROJECT/$DOCKER up airflow-init --build
-      - docker compose -f $ROOT_PROJECT/$DOCKER up -d --build
+      - source $ENV_FILE_PATH
+      - docker compose -f $ROOT_PROJECT/$DOCKER --env-file $ENV_FILE_PATH up airflow-init --build
+      - docker compose -f $ROOT_PROJECT/$DOCKER --env-file $ENV_FILE_PATH up -d --build
       - docker container ls -a
 
   down_project:
     cmds:
-      - docker compose -f $ROOT_PROJECT/$DOCKER down
+      - docker compose -f $ROOT_PROJECT/$DOCKER --env-file $ENV_FILE_PATH down
 
   cleanup: 
     cmds:
       - rm -rf  $ROOT_PROJECT/{raw_data,processed_data,logs,plugins,config}
-      - rm -f   $ROOT_PROJECT/.env
+      - rm -f   $ENV_FILE_PATH
       - rm -rf  $ROOT_PROJECT/dags/*pycache*
       - rm -rf  $ROOT_PROJECT/dags/*/*pycache*
