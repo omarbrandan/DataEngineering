@@ -6,11 +6,11 @@ Segunda Preentrega: adaptar los datos leídos de la API y cargar en la tabla cre
 
 Tercera Preentrega: correr el proyecto en un container de Docker, embebido en un DAG de Airflow dentro del container.
 
---- (.env será agregado a gitignore en la entrega final) ---
+Entrega Final: 3° Preentrega con la tarea de envío de correo y automatización con Taskfile.
 
-Taskfile.yml:
-    sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
-    ./bin/task pre_project
-    ./bin/task start_project
-    ./bin/task down_project
-    ./bin/task cleanup
+    Pasos para correr el proyecto de manera automática con Taskfile.yml:
+        sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
+        ./bin/task pre_project
+        ./bin/task start_project
+        ./bin/task down_project
+        ./bin/task cleanup

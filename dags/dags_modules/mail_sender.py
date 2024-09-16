@@ -7,34 +7,31 @@ def send_email(**context):
     from_address = context["var"]["value"].get("email")
     password = context["var"]["value"].get("email_password")
     to_address = context["var"]["value"].get("to_address")
+    alert_content = context.get("alert_content", "")
 
-    # Crear el objeto MIME
     msg = MIMEMultipart()
     msg['From'] = from_address
     msg['To'] = to_address
     msg['Subject'] = subject
 
-    # Contenido HTML
-    html_content = """
+    html_content = f"""
     <html>
     <body>
         <p>El proceso de ETL a Redshift ha sido realizado con éxito.</p>
+        <p><b>Alertas:</b></p>
+        <p>{alert_content}</p>
     </body>
     </html>
     """
 
-    # Adjuntar el contenido HTML
     msg.attach(MIMEText(html_content, 'html'))
 
     try:
-        # Crear la sesión SMTP
-        server = smtplib.SMTP('smtp.gmail.com', 587)  # Usa tu servidor SMTP y puerto
-        server.starttls()  # Activar TLS
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
 
-        # Iniciar sesión en el servidor
         server.login(from_address, password)
 
-        # Enviar el correo
         server.sendmail(from_address, to_address, msg.as_string())
         server.quit()
         print("Email enviado con éxito")

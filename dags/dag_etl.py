@@ -12,6 +12,23 @@ from airflow.models import Variable
 
 load_dotenv()
 
+def prepare_and_send_email(**kwargs):
+    alert_content = kwargs['ti'].xcom_pull(task_ids='prepare_and_load_task')
+    if not alert_content:
+        return
+    send_email_context = {
+        'var': {
+            'value': {
+                'subject_mail': Variable.get("subject_mail"),
+                'email': Variable.get("email"),
+                'email_password': Variable.get("email_password"),
+                'to_address': Variable.get("to_address")
+            }
+        },
+        'alert_content': alert_content
+    }
+    send_email(**send_email_context)
+
 with DAG(
     dag_id='ETL_to_Redshift',
     default_args=get_defaultairflow_args(),
@@ -41,21 +58,11 @@ with DAG(
     dag=dag,
     )
 
-    send_email_task = PythonOperator(
-        task_id="send_email_task",
-        python_callable=send_email,
-        provide_context=True,
-        op_kwargs={
-            'var': {
-                'value': {
-                    'subject_mail': Variable.get("subject_mail"),
-                    'email': Variable.get("email"),
-                    'email_password': Variable.get("email_password"),
-                    'to_address': Variable.get("to_address")
-                }
-            }
-        },
-        dag=dag,
-    )
+    prepare_and_send_email_task = PythonOperator(
+    task_id='prepare_and_send_email_task',
+    python_callable=prepare_and_send_email,
+    provide_context=True,
+    dag=dag,
+)
 
-    extract_data_task >> transform_data_task >> prepare_and_load_task >> send_email_task
+    extract_data_task >> transform_data_task >> prepare_and_load_task >> prepare_and_send_email_task
