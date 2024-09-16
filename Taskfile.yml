@@ -15,22 +15,22 @@ tasks:
           echo -e "AIRFLOW_UID=$(id -u)" > $ROOT_PROJECT/.env
           cat <<EOF >> $ROOT_PROJECT/.env
         AIRFLOW_GID=0
-        REDSHIFT_URL=redshift+psycopg2://omaragustinbrandan_coderhouse:5A6MEpt8Eg@data-engineer-cluster.cyhh5bfevlmn.us-east-1.redshift.amazonaws.com:5439/data-engineer-database
-        REDSHIFT_USER=omaragustinbrandan_coderhouse
-        REDSHIFT_PASSWORD=5A6MEpt8Eg
-        REDSHIFT_PORT=5439
-        REDSHIFT_DBNAME=data-engineer-database
-        REDSHIFT_SCHEMA=omaragustinbrandan_coderhouse
-        REDSHIFT_HOST=data-engineer-cluster.cyhh5bfevlmn.us-east-1.redshift.amazonaws.com
-        EMAIL=omaragustinbrandan@gmail.com
-        EMAIL_PASSWORD=jtkwuaaxlqfwkidy
-        SMTP_HOST=smtp.gmail.com
-        SMTP_STARTTLS=True
-        SMTP_SSL=False
-        SMTP_USER=omaragustinbrandan@gmail.com
-        SMTP_PASSWORD=jtkwuaaxlqfwkidy
-        SMTP_PORT=587
-        SMTP_MAIL_FROM=omaragustinbrandan@gmail.com
+        REDSHIFT_URL=
+        REDSHIFT_USER=
+        REDSHIFT_PASSWORD=
+        REDSHIFT_PORT=
+        REDSHIFT_DBNAME=
+        REDSHIFT_SCHEMA=
+        REDSHIFT_HOST=
+        EMAIL=
+        EMAIL_PASSWORD=
+        SMTP_HOST=
+        SMTP_STARTTLS=
+        SMTP_SSL=
+        SMTP_USER=
+        SMTP_PASSWORD=
+        SMTP_PORT=
+        SMTP_MAIL_FROM=
         EOF
         else
           echo ".env file already exists"

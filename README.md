@@ -14,3 +14,5 @@ Entrega Final: 3° Preentrega con la tarea de envío de correo y automatización
         ./bin/task start_project
         ./bin/task down_project
         ./bin/task cleanup
+
+Recordar cargar las credenciales en el archivo .env que se va a crear en los pasos detallados anteriormente.
